@@ -13,7 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,6 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bong.pokedex.R
@@ -41,7 +41,7 @@ import com.bong.pokedex.ui.theme.Primary
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun SearchBar() {
+fun SearchBar(searchBarWidth: Dp? = null) {
 
     var keyword by rememberSaveable { mutableStateOf("") }
 
@@ -69,7 +69,7 @@ fun SearchBar() {
         decorationBox = { innerTextField ->
             Row(
                 modifier = Modifier
-                    .width(200.dp)
+                    .width(searchBarWidth ?: 200.dp)
                     .background(color = Color.White, shape = RoundedCornerShape(size = 16.dp))
                     .padding(all = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -101,9 +101,11 @@ fun SearchBar() {
                     }
                 }
 
-                Box(modifier = Modifier.width(16.dp).clickable {
-                    keyword = ""
-                }) {
+                Box(modifier = Modifier
+                    .width(16.dp)
+                    .clickable {
+                        keyword = ""
+                    }) {
                     if (keyword.isNotEmpty()) {
                         Image(
                             painter = painterResource(id = R.drawable.close),
