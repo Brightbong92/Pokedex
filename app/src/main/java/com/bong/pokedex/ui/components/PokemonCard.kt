@@ -34,7 +34,7 @@ import com.bong.pokedex.ui.theme.GrayScaleDark
 import com.bong.pokedex.ui.theme.Primary
 
 @Composable
-fun PokemonCard() {
+fun PokemonCard(silhouette : String? = null , pokemonNum: String? = null, name: String? = null) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = Color.White
@@ -47,7 +47,7 @@ fun PokemonCard() {
         ),
     ) {
         Box(contentAlignment = Alignment.TopEnd, modifier = Modifier.fillMaxWidth().padding(top=4.dp, end = 8.dp)) {
-            Text(text = "#999", fontSize = 10.sp)
+            Text(text = "${pokemonNum ?: "#999"}", fontSize = 10.sp)
         }
 
         Box(

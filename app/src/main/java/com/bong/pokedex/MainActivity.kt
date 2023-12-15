@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.bong.pokedex.ui.components.PokemonCard
+import com.bong.pokedex.ui.components.SearchBar
 import com.bong.pokedex.ui.theme.PokedexTheme
 
 class MainActivity : ComponentActivity() {
@@ -36,9 +37,9 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    Column() {
-                        Greeting("Android")
+                    Column {
                         PokemonCard()
+                        SearchBar()
                     }
                 }
             }
