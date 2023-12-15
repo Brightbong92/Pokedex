@@ -114,7 +114,6 @@ fun SearchBar(searchBarWidth: Dp? = null) {
                             modifier = Modifier.size(16.dp)
                         )
                     }
-
                 }
             }
         },
