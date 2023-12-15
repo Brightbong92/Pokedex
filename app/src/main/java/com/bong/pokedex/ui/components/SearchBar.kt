@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -41,7 +42,7 @@ import com.bong.pokedex.ui.theme.Primary
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun SearchBar(searchBarWidth: Dp? = null) {
+fun SearchBar(containerWidth: Dp? = 200.dp, searchBarWidth: Dp? = 120.dp) {
 
     var keyword by rememberSaveable { mutableStateOf("") }
 
@@ -60,7 +61,8 @@ fun SearchBar(searchBarWidth: Dp? = null) {
             keyword = it
         },
         singleLine = true,
-        modifier = Modifier.shadow( // Add shadow effect
+        modifier = Modifier
+            .shadow( // Add shadow effect
             elevation = 2.dp, shape = RoundedCornerShape(16.dp)
         ),
         textStyle = TextStyle(
@@ -69,9 +71,9 @@ fun SearchBar(searchBarWidth: Dp? = null) {
         decorationBox = { innerTextField ->
             Row(
                 modifier = Modifier
-                    .width(searchBarWidth ?: 200.dp)
+                    .width(containerWidth!!)
                     .background(color = Color.White, shape = RoundedCornerShape(size = 16.dp))
-                    .padding(all = 16.dp),
+                    .padding(all = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -89,7 +91,7 @@ fun SearchBar(searchBarWidth: Dp? = null) {
 
                 Box(
                     modifier = Modifier
-                        .width(120.dp)
+                        .width(searchBarWidth!!)
                 ) {
                     Box() {
                         if (keyword.isEmpty()) {

@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -34,7 +35,12 @@ import com.bong.pokedex.ui.theme.GrayScaleDark
 import com.bong.pokedex.ui.theme.Primary
 
 @Composable
-fun PokemonCard(silhouette : String? = null , pokemonNum: String? = null, name: String? = null) {
+fun PokemonCard(
+    painter: Painter? = painterResource(id = R.drawable.poke_mock_image),
+    silhouette: String? = null,
+    number: String? = null,
+    name: String? = null
+) {
     Card(
         colors = CardDefaults.cardColors(
             containerColor = Color.White
@@ -46,8 +52,13 @@ fun PokemonCard(silhouette : String? = null , pokemonNum: String? = null, name: 
             defaultElevation = 6.dp
         ),
     ) {
-        Box(contentAlignment = Alignment.TopEnd, modifier = Modifier.fillMaxWidth().padding(top=4.dp, end = 8.dp)) {
-            Text(text = "${pokemonNum ?: "#999"}", fontSize = 10.sp)
+        Box(
+            contentAlignment = Alignment.TopEnd,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp, end = 8.dp)
+        ) {
+            Text(text = "${number ?: "#999"}", fontSize = 10.sp)
         }
 
         Box(
@@ -61,7 +72,7 @@ fun PokemonCard(silhouette : String? = null , pokemonNum: String? = null, name: 
                     .zIndex(2f)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.poke_mock_image),
+                    painter = painter!!,
                     contentDescription = "poke_mock_image",
                     modifier = Modifier
                         .size(72.dp)
@@ -81,7 +92,7 @@ fun PokemonCard(silhouette : String? = null , pokemonNum: String? = null, name: 
                     .zIndex(1f),
                 contentAlignment = Alignment.BottomCenter
             ) {
-                Text("Pokémon Name", fontSize = 10.sp)
+                Text(name?:"Pokémon Name", fontSize = 10.sp)
             }
         }
     }
