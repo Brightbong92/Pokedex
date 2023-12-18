@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.absoluteOffset
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +22,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -29,10 +34,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.bong.pokedex.R
+import com.bong.pokedex.ui.components.CustomDialog
 import com.bong.pokedex.ui.components.PokemonCard
 import com.bong.pokedex.ui.components.SearchBar
 import com.bong.pokedex.ui.components.SortButton
+import com.bong.pokedex.ui.components.SortCard
 import com.bong.pokedex.ui.theme.Primary
 
 @Composable
@@ -48,6 +56,23 @@ fun ListScreen() {
         Pokemon("Mew", painterResource(id = R.drawable.mew), "#152"),
         Pokemon("Aron", painterResource(id = R.drawable.aron), "#304")
     )
+
+
+    var isSortCardOpen by rememberSaveable {
+        mutableStateOf(false)
+    }
+    val sortCardRadioOptions = listOf("Number", "Name")
+    val sortCardSelectedOption by rememberSaveable {
+        mutableStateOf(sortCardRadioOptions[0])
+    }
+
+
+    if (!isSortCardOpen) {
+        CustomDialog(onDismissRequest = { /*TODO*/ }) {
+            SortCard()
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -81,14 +106,12 @@ fun ListScreen() {
 
                 Row(
                     modifier = Modifier
-                        .padding(top = 8.dp)
+                        .padding(top = 8.dp, end = 12.dp)
                         .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     SearchBar(containerWidth = 280.dp, searchBarWidth = 228.dp)
-                    Box(modifier = Modifier.padding(start = 16.dp)) {
-                        SortButton()
-                    }
+                    SortButton()
                 }
             }
 
@@ -100,26 +123,18 @@ fun ListScreen() {
                 shape = RoundedCornerShape(10.dp)
 
             ) {
-
-
                 LazyVerticalGrid(
                     modifier = Modifier.padding(
-                        top = 24.dp,
-                        start = 12.dp,
-                        end = 12.dp
+                        top = 24.dp, start = 12.dp, end = 12.dp
                     ),
                     columns = GridCells.Fixed(3),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-
-
                     items(pokemonArray.size) {
                         val pokemon = pokemonArray[it]
                         PokemonCard(
-                            painter = pokemon.painter,
-                            name = pokemon.name,
-                            number = pokemon.number
+                            painter = pokemon.painter, name = pokemon.name, number = pokemon.number
                         )
                     }
                 }
@@ -128,6 +143,7 @@ fun ListScreen() {
     }
 
 }
+
 data class Pokemon(
     val name: String,
     val painter: Painter,
