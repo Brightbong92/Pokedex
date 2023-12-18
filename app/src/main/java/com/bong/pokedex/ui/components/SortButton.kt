@@ -14,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,7 +50,7 @@ fun SortButton() {
                 .background(Color.White),
             contentAlignment = Alignment.Center
         ) {
-            Box(modifier = Modifier.size(16.dp)) {
+            IconButton(modifier = Modifier.size(16.dp), onClick = {}) {
                 Icon(
                     painter = painterResource(id = R.drawable.sort),
                     contentDescription = "sortButton",

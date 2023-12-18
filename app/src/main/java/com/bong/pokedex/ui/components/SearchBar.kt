@@ -6,10 +6,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -58,20 +60,26 @@ fun SearchBar(containerWidth: Dp? = 200.dp, searchBarWidth: Dp? = 120.dp) {
         }),
         value = keyword,
         onValueChange = {
-            keyword = it
+            if (keyword.length <= 20) {
+                keyword = it
+            } else if (it.length < keyword.length) {
+                keyword = it
+            }
         },
-        singleLine = true,
+        maxLines = 1,
         modifier = Modifier
             .shadow( // Add shadow effect
-            elevation = 2.dp, shape = RoundedCornerShape(16.dp)
-        ),
+                elevation = 2.dp, shape = RoundedCornerShape(16.dp)
+            ),
         textStyle = TextStyle(
             fontSize = 10.sp, color = GrayScaleDark
         ),
         decorationBox = { innerTextField ->
             Row(
                 modifier = Modifier
-                    .width(containerWidth!!)
+                    .fillMaxWidth(0.8f)
+//                    .widthIn(max = containerWidth!!)
+//                    .fillMaxWidth()
                     .background(color = Color.White, shape = RoundedCornerShape(size = 16.dp))
                     .padding(all = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -91,7 +99,8 @@ fun SearchBar(containerWidth: Dp? = 200.dp, searchBarWidth: Dp? = 120.dp) {
 
                 Box(
                     modifier = Modifier
-                        .width(searchBarWidth!!)
+                        .fillMaxWidth(0.9f)
+//                        .width(searchBarWidth!!)
                 ) {
                     Box() {
                         if (keyword.isEmpty()) {

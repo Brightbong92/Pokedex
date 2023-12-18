@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -82,7 +83,7 @@ fun ListScreen() {
                     modifier = Modifier
                         .padding(top = 8.dp)
                         .fillMaxWidth(),
-//                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     SearchBar(containerWidth = 280.dp, searchBarWidth = 228.dp)
                     Box(modifier = Modifier.padding(start = 16.dp)) {
