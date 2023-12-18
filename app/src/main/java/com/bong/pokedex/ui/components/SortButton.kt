@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
@@ -50,7 +51,7 @@ fun SortButton() {
                 .background(Color.White),
             contentAlignment = Alignment.Center
         ) {
-            IconButton(modifier = Modifier.size(16.dp), onClick = {}) {
+            IconButton(modifier = Modifier.size(16.dp).fillMaxWidth(0.1f), onClick = {}) {
                 Icon(
                     painter = painterResource(id = R.drawable.sort),
                     contentDescription = "sortButton",

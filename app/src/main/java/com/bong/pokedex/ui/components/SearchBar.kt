@@ -77,7 +77,7 @@ fun SearchBar(containerWidth: Dp? = 200.dp, searchBarWidth: Dp? = 120.dp) {
         decorationBox = { innerTextField ->
             Row(
                 modifier = Modifier
-                    .fillMaxWidth(0.8f)
+                    .fillMaxWidth(0.85f)
 //                    .widthIn(max = containerWidth!!)
 //                    .fillMaxWidth()
                     .background(color = Color.White, shape = RoundedCornerShape(size = 16.dp))
