@@ -50,6 +50,18 @@ android {
 }
 
 dependencies {
+    val lifecycle_version = "2.5.1"
+    val arch_version = "2.1.0"
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    // ViewModel utilities for Compose
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
+
+    // navigation
+    dependencies {
+        val nav_version = "2.5.3"
+        implementation("androidx.navigation:navigation-compose:$nav_version")
+    }
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")

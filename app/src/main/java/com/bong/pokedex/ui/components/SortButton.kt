@@ -1,30 +1,19 @@
 package com.bong.pokedex.ui.components
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.bong.pokedex.R
@@ -32,7 +21,14 @@ import com.bong.pokedex.ui.modifiers.drawColoredShadow
 import com.bong.pokedex.ui.theme.Primary
 
 @Composable
-fun SortButton() {
+fun SortButton(onOpen: () -> Unit, iconName: String = "sort") {
+    val iconId = if (iconName === "sort" || iconName === "") {
+        R.drawable.sort
+    } else if (iconName === "Number") {
+        R.drawable.tag
+    } else {
+        R.drawable.text_format
+    }
 
     Column(
         modifier = Modifier
@@ -52,13 +48,12 @@ fun SortButton() {
                 .background(Color.White),
             contentAlignment = Alignment.Center
         ) {
-            IconButton(modifier = Modifier.size(16.dp), onClick = {}) {
+            IconButton(modifier = Modifier.size(16.dp), onClick = { onOpen() }) {
                 Icon(
-                    painter = painterResource(id = R.drawable.sort),
+                    painter = painterResource(id = iconId),
                     contentDescription = "sortButton",
                     tint = Primary,
                     modifier = Modifier.clip(RoundedCornerShape(16.dp))
-
                 )
             }
         }
