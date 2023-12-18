@@ -35,7 +35,7 @@ import com.bong.pokedex.ui.components.SortCard
 import com.bong.pokedex.ui.theme.Primary
 
 @Composable
-fun ListScreen(viewModel: ListViewModel) {
+fun ListScreen(viewModel: ListViewModel, onCardClick: (String) -> Unit) {
     val pokemonList: List<Pokemon> = listOf(
         Pokemon("Bulbasaur", painterResource(id = R.drawable.bulbasaur), "#001"),
         Pokemon("Charmander", painterResource(id = R.drawable.charmander), "#004"),
@@ -121,7 +121,8 @@ fun ListScreen(viewModel: ListViewModel) {
                     items(pokemonList.size) {
                         val pokemon = pokemonList[it]
                         PokemonCard(
-                            painter = pokemon.painter, name = pokemon.name, number = pokemon.number
+                            painter = pokemon.painter, name = pokemon.name, number = pokemon.number,
+                            onCardClick = onCardClick
                         )
                     }
                 }
@@ -129,6 +130,7 @@ fun ListScreen(viewModel: ListViewModel) {
         }
     }
 }
+
 data class Pokemon(
     val name: String,
     val painter: Painter,

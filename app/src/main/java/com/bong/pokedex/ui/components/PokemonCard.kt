@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,12 +35,14 @@ import com.bong.pokedex.ui.theme.GrayScaleBackground
 import com.bong.pokedex.ui.theme.GrayScaleDark
 import com.bong.pokedex.ui.theme.Primary
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PokemonCard(
     painter: Painter? = painterResource(id = R.drawable.poke_mock_image),
     silhouette: String? = null,
     number: String? = null,
-    name: String? = null
+    name: String? = null,
+    onCardClick: (String) -> Unit,
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -51,6 +54,7 @@ fun PokemonCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
         ),
+        onClick = {onCardClick(name!!)}
     ) {
         Box(
             contentAlignment = Alignment.TopEnd,

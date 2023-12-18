@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.bong.pokedex"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.bong.pokedex"
@@ -51,17 +51,23 @@ android {
 
 dependencies {
     val lifecycle_version = "2.5.1"
-    val arch_version = "2.1.0"
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
     // ViewModel utilities for Compose
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
 
     // navigation
-    dependencies {
-        val nav_version = "2.5.3"
-        implementation("androidx.navigation:navigation-compose:$nav_version")
-    }
+    val nav_version = "2.5.3"
+    // Kotlin
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+    // Feature module Support
+    implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
+    // Testing Navigation
+    androidTestImplementation("androidx.navigation:navigation-testing:$nav_version")
+    // Jetpack Compose Integration
+    implementation("androidx.navigation:navigation-compose:2.7.0-rc01")
+
 
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
