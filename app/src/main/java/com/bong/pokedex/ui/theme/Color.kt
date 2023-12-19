@@ -15,6 +15,25 @@ val Primary = Color(android.graphics.Color.parseColor("#DC0A2D"))
 
 // Pokemon Type
 
+var PokemonTypeBug = Color(android.graphics.Color.parseColor("#A7B723"))
+var PokemonTypeDark = Color(android.graphics.Color.parseColor("#75574C"))
+var PokemonTypeDragon = Color(android.graphics.Color.parseColor("#7037FF"))
+var PokemonTypeElectric = Color(android.graphics.Color.parseColor("#F9CF30"))
+var PokemonTypeFairy = Color(android.graphics.Color.parseColor("#E69EAC"))
+var PokemonTypeFighting = Color(android.graphics.Color.parseColor("#C12239"))
+var PokemonTypeFire = Color(android.graphics.Color.parseColor("#F57D31"))
+var PokemonTypeFlying = Color(android.graphics.Color.parseColor("#A891EC"))
+var PokemonTypeGhost = Color(android.graphics.Color.parseColor("#70559B"))
+var PokemonTypeNormal = Color(android.graphics.Color.parseColor("#AAA67F"))
+var PokemonTypeGrass = Color(android.graphics.Color.parseColor("#74CB48"))
+var PokemonTypeGround = Color(android.graphics.Color.parseColor("#DEC16B"))
+var PokemonTypeIce = Color(android.graphics.Color.parseColor("#9AD6DF"))
+var PokemonTypePoison = Color(android.graphics.Color.parseColor("#A43E9E"))
+var PokemonTypePsychic = Color(android.graphics.Color.parseColor("#FB5584"))
+var PokemonTypeRock = Color(android.graphics.Color.parseColor("#B69E31"))
+var PokemonTypeSteel = Color(android.graphics.Color.parseColor("#B7B9D0"))
+var PokemonTypeWater = Color(android.graphics.Color.parseColor("#6493EB"))
+
 // Grayscale
 val GrayScaleDark = Color(android.graphics.Color.parseColor("#212121"))
 

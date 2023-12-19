@@ -28,50 +28,56 @@ fun ComposeApp() {
     val listViewModel: ListViewModel = viewModel()
 
     NavHost(
-        navController = navController, startDestination = Route.LIST,
+        navController = navController, startDestination = Route.DETAIL,
         // 기본 FadeInOut 효과 제거됨
         enterTransition = { EnterTransition.None },
         exitTransition = { ExitTransition.None }
     ) {
-        composable(route = Route.LIST) {
-            ListScreen(
-                viewModel = listViewModel, onCardClick = {
-                navController.navigate("${Route.DETAIL}/$it")
+        composable(route = Route.DETAIL) {
+            DetailScreen(name = "Bulbassaur", onClickBack = {
+//                navController.popBackStack()
             })
         }
-        composable(
-            enterTransition = {
-                fadeIn(
-                    animationSpec = tween(
-                        300, easing = LinearEasing
-                    )
-                ) + slideIntoContainer(
-                    animationSpec = tween(300, easing = EaseIn),
-                    towards = AnimatedContentTransitionScope.SlideDirection.Start
-                )
-            },
-            exitTransition = {
-                fadeOut(
-                    animationSpec = tween(
-                        300, easing = LinearEasing
-                    )
-                ) + slideOutOfContainer(
-                    animationSpec = tween(300, easing = EaseOut),
-                    towards = AnimatedContentTransitionScope.SlideDirection.End
-                )
-            },
-            route = "${Route.DETAIL}/{${POKEMON_NAME}}",
-            arguments = listOf(
-                navArgument(POKEMON_NAME) {
-                    type = NavType.StringType
-                },
 
-                ),
-        ) { backStackEntry ->
-            DetailScreen(onClickBack = {
-                navController.popBackStack()
-            })
-        }
+//        composable(route = Route.LIST) {
+//            ListScreen(
+//                viewModel = listViewModel, onCardClick = {
+//                    navController.navigate("${Route.DETAIL}/$it")
+//                })
+//        }
+//        composable(
+//            enterTransition = {
+//                fadeIn(
+//                    animationSpec = tween(
+//                        300, easing = LinearEasing
+//                    )
+//                ) + slideIntoContainer(
+//                    animationSpec = tween(300, easing = EaseIn),
+//                    towards = AnimatedContentTransitionScope.SlideDirection.Start
+//                )
+//            },
+//            exitTransition = {
+//                fadeOut(
+//                    animationSpec = tween(
+//                        300, easing = LinearEasing
+//                    )
+//                ) + slideOutOfContainer(
+//                    animationSpec = tween(300, easing = EaseOut),
+//                    towards = AnimatedContentTransitionScope.SlideDirection.End
+//                )
+//            },
+//            route = "${Route.DETAIL}/{${POKEMON_NAME}}",
+//            arguments = listOf(
+//                navArgument(POKEMON_NAME) {
+//                    type = NavType.StringType
+//                }),
+//        ) {backStackEntry ->
+//            backStackEntry.arguments?.getString(POKEMON_NAME)?.let {
+//                DetailScreen(name = it, onClickBack = {
+//                    navController.popBackStack()
+//                })
+//            }
+//        }
     }
 }
 
