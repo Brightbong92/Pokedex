@@ -34,7 +34,7 @@ fun ComposeApp() {
         exitTransition = { ExitTransition.None }
     ) {
         composable(route = Route.DETAIL) {
-            DetailScreen(name = "Bulbassaur", onClickBack = {
+            DetailScreen(name = "Bulbasaur", onClickBack = {
 //                navController.popBackStack()
             })
         }
@@ -78,6 +78,7 @@ fun ComposeApp() {
 //                })
 //            }
 //        }
+        // composable END
     }
 }
 
