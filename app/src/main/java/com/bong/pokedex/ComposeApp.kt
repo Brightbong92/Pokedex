@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.bong.pokedex.Argument.POKEMON_NAME
 import com.bong.pokedex.ui.detail.DetailScreen
+import com.bong.pokedex.ui.detail.DetailViewModel
 import com.bong.pokedex.ui.list.ListScreen
 import com.bong.pokedex.ui.list.ListViewModel
 
@@ -26,6 +27,7 @@ import com.bong.pokedex.ui.list.ListViewModel
 fun ComposeApp() {
     val navController = rememberNavController()
     val listViewModel: ListViewModel = viewModel()
+    val detailViewModel : DetailViewModel = viewModel()
 
     NavHost(
         navController = navController, startDestination = Route.DETAIL,
@@ -34,7 +36,7 @@ fun ComposeApp() {
         exitTransition = { ExitTransition.None }
     ) {
         composable(route = Route.DETAIL) {
-            DetailScreen(name = "Bulbasaur", onClickBack = {
+            DetailScreen(viewModel = detailViewModel, name = "Bulbasaur", onClickBack = {
 //                navController.popBackStack()
             })
         }

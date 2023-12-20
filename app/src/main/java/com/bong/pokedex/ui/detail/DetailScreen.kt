@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
@@ -38,6 +40,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -49,13 +52,7 @@ import com.bong.pokedex.ui.theme.GrayScaleMedium
 import com.bong.pokedex.ui.theme.PokemonTypeGrass
 
 @Composable
-fun DetailScreen(name: String, onClickBack: () -> Unit) {
-
-    val paddingTop =
-        with(LocalDensity.current) { dimensionResource(id = R.dimen.padding_top_value) }
-    val paddingEnd =
-        with(LocalDensity.current) { dimensionResource(id = R.dimen.padding_end_value) }
-
+fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -101,7 +98,7 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                 modifier = Modifier
                     .wrapContentSize()
                     .align(Alignment.TopEnd)
-                    .padding(top = paddingTop, end = paddingEnd)
+                    .padding(top = 4.dp, end = 6.dp)
                     .zIndex(0f)
             ) {
                 Icon(
@@ -271,7 +268,6 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                         }
                     } // About End
 
-
                     Box(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)) {
                         Text(
                             lineHeight = 16.sp,
@@ -294,13 +290,18 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                         )
 
                         Row(modifier = Modifier.fillMaxWidth()) {
-                            Column() {
-                                Text(
-                                    color = PokemonTypeGrass,
-                                    fontSize = 10.sp,
-                                    fontWeight = FontWeight.ExtraBold,
-                                    text = "HP"
-                                )
+                            Column(
+                                horizontalAlignment = Alignment.End
+                            ) {
+                                viewModel.apiStats.forEach { stat ->
+                                    Text(
+                                        modifier = Modifier.height(16.dp),
+                                        color = PokemonTypeGrass,
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.ExtraBold,
+                                        text = viewModel.toUpperCaseStatName(stat.stat.name)
+                                    )
+                                }
                             }
 
                             Spacer(modifier = Modifier.width(12.dp))
@@ -313,37 +314,47 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                             Spacer(modifier = Modifier.width(12.dp))
 
                             Column(modifier = Modifier.fillMaxWidth()) {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically
-                                ) {
-                                    Text(
-                                        fontSize = 10.sp,
-                                        fontWeight = FontWeight.Normal,
-                                        color = GrayScaleDark,
-                                        text = "045"
-                                    )
-                                    Spacer(modifier = Modifier.width(10.dp))
-                                    Box {
-                                        Box(
-                                            modifier = Modifier
-                                                .background(PokemonTypeGrass)
-                                                .width(50.dp)
-                                                .height(4.dp)
-                                                .zIndex(2f)
+
+                                viewModel.apiStats.forEach { stat ->
+
+                                    Row(
+                                        modifier = Modifier.height(16.dp),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            fontSize = 10.sp,
+                                            fontWeight = FontWeight.Normal,
+                                            color = GrayScaleDark,
+                                            text = stat.base_stat.toString()
                                         )
-                                        Box(
-                                            modifier = Modifier
-                                                .background(
-                                                    PokemonTypeGrass.copy(
-                                                        alpha = 0.2f
+                                        Spacer(modifier = Modifier.width(10.dp))
+                                        Box {
+
+
+                                            Box(
+                                                modifier = Modifier
+                                                    .background(PokemonTypeGrass)
+                                                    .width(stat.base_stat.dp)
+                                                    .height(4.dp)
+                                                    .zIndex(2f)
+                                            )
+                                            Box(
+                                                modifier = Modifier
+                                                    .background(
+                                                        PokemonTypeGrass.copy(
+                                                            alpha = 0.2f
+                                                        )
                                                     )
-                                                )
-                                                .width(244.dp)
-                                                .height(4.dp)
-                                                .zIndex(1f)
-                                        )
+                                                    .widthIn(max = 233.dp)
+                                                    .fillMaxWidth()
+                                                    .height(4.dp)
+                                                    .zIndex(1f)
+                                            )
+                                        }
                                     }
+
                                 }
+
                             }
                         }
                     }
