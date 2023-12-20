@@ -1,7 +1,7 @@
 # PokeDex
 
 ### Screenshot
-![스크린샷 2023-12-17 오전 10 15 20](https://github.com/Brightbong92/Pokedex/assets/51194127/02af52bc-c761-4cda-916f-1cf71bcc37e5)
+![스크린샷 2023-12-19 오후 10 24 44](https://github.com/Brightbong92/Pokedex/assets/51194127/212eb165-d111-4294-a1c4-ec9e3e38eb72)
 
 ### Page
 - List
