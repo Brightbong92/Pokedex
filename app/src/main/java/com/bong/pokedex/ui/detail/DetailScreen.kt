@@ -32,6 +32,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -42,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.bong.pokedex.R
 import com.bong.pokedex.ui.components.PokemonType
+import com.bong.pokedex.ui.theme.GrayScaleDark
 import com.bong.pokedex.ui.theme.GrayScaleLight
 import com.bong.pokedex.ui.theme.GrayScaleMedium
 import com.bong.pokedex.ui.theme.PokemonTypeGrass
@@ -141,9 +143,9 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                 Column(
                     modifier = Modifier.padding(start = 20.dp, end = 20.dp),
                 ) {
+                    // 포켓몬 타입 Badge
                     Row(
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center
                     ) {
                         PokemonType(typeName = "Grass")
@@ -151,6 +153,7 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                         PokemonType(typeName = "Poison")
                     }
 
+                    // About 텍스트
                     Text(
                         modifier = Modifier
                             .padding(top = 16.dp)
@@ -161,6 +164,7 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                         textAlign = TextAlign.Center
                     )
 
+                    // About Content
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -169,8 +173,7 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .padding(top = 8.dp)
+                            modifier = Modifier.padding(top = 8.dp)
                         ) {
                             Row(
                                 modifier = Modifier.height(26.dp),
@@ -199,14 +202,12 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                         Divider(
                             modifier = Modifier
                                 .width(1.dp)
-                                .height(48.dp),
-                            color = GrayScaleLight
+                                .height(48.dp), color = GrayScaleLight
                         )
 
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .padding(top = 8.dp)
+                            modifier = Modifier.padding(top = 8.dp)
                         ) {
                             Row(
                                 modifier = Modifier.height(26.dp),
@@ -235,8 +236,7 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                         Divider(
                             modifier = Modifier
                                 .width(1.dp)
-                                .height(48.dp),
-                            color = GrayScaleLight
+                                .height(48.dp), color = GrayScaleLight
                         )
 
 
@@ -244,8 +244,7 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                             horizontalAlignment = Alignment.CenterHorizontally,
                         ) {
                             Column(
-                                modifier = Modifier
-                                    .height(26.dp)
+                                modifier = Modifier.height(26.dp)
 
                             ) {
                                 Text(
@@ -260,7 +259,7 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                                     fontWeight = FontWeight.Normal,
                                     fontSize = 10.sp,
                                     lineHeight = 12.sp,
-                                    )
+                                )
                             }
                             Text(
                                 modifier = Modifier.padding(top = 8.dp),
@@ -269,6 +268,83 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                                 fontSize = 8.sp,
                                 color = GrayScaleMedium
                             )
+                        }
+                    } // About End
+
+
+                    Box(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)) {
+                        Text(
+                            lineHeight = 16.sp,
+                            color = GrayScaleDark,
+                            fontSize = 10.sp,
+                            text = "There is a plant seed on its back right from the day this Pokémon is born. The seed slowly grows larger."
+                        )
+                    }
+
+                    // Base Stats
+                    Column() {
+                        Text(
+                            modifier = Modifier
+                                .padding(top = 16.dp, bottom = 16.dp)
+                                .fillMaxWidth(),
+                            text = "Base Stats",
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 14.sp,
+                            textAlign = TextAlign.Center
+                        )
+
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            Column() {
+                                Text(
+                                    color = PokemonTypeGrass,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.ExtraBold,
+                                    text = "HP"
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Divider(
+                                modifier = Modifier
+                                    .width(1.dp)
+                                    .height(96.dp),
+                                color = GrayScaleLight
+                            )
+                            Spacer(modifier = Modifier.width(12.dp))
+
+                            Column(modifier = Modifier.fillMaxWidth()) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Normal,
+                                        color = GrayScaleDark,
+                                        text = "045"
+                                    )
+                                    Spacer(modifier = Modifier.width(10.dp))
+                                    Box {
+                                        Box(
+                                            modifier = Modifier
+                                                .background(PokemonTypeGrass)
+                                                .width(50.dp)
+                                                .height(4.dp)
+                                                .zIndex(2f)
+                                        )
+                                        Box(
+                                            modifier = Modifier
+                                                .background(
+                                                    PokemonTypeGrass.copy(
+                                                        alpha = 0.2f
+                                                    )
+                                                )
+                                                .width(244.dp)
+                                                .height(4.dp)
+                                                .zIndex(1f)
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
 
