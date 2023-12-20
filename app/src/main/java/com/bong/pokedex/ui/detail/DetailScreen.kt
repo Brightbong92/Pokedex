@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -41,6 +42,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.bong.pokedex.R
 import com.bong.pokedex.ui.components.PokemonType
+import com.bong.pokedex.ui.theme.GrayScaleLight
+import com.bong.pokedex.ui.theme.GrayScaleMedium
 import com.bong.pokedex.ui.theme.PokemonTypeGrass
 
 @Composable
@@ -140,8 +143,7 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                 ) {
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color.Red),
+                            .fillMaxWidth(),
                         horizontalArrangement = Arrangement.Center
                     ) {
                         PokemonType(typeName = "Grass")
@@ -152,8 +154,7 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                     Text(
                         modifier = Modifier
                             .padding(top = 16.dp)
-                            .fillMaxWidth()
-                            .background(Color.Blue),
+                            .fillMaxWidth(),
                         text = "About",
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 14.sp,
@@ -163,19 +164,16 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color.Cyan)
-                            .padding(top = 16.dp), horizontalArrangement = Arrangement.SpaceAround
+                            .padding(top = 16.dp, bottom = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
-                                .background(Color.Yellow)
                                 .padding(top = 8.dp)
                         ) {
                             Row(
-                                modifier = Modifier
-                                    .height(32.dp)
-                                    .background(Color.Red),
+                                modifier = Modifier.height(26.dp),
                                 horizontalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
                                 Icon(
@@ -190,40 +188,28 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                                 )
                             }
                             Text(
-                                modifier = Modifier.padding(top = 4.dp),
+                                modifier = Modifier.padding(top = 0.dp),
                                 text = "Weight",
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 8.sp
+                                fontSize = 8.sp,
+                                color = GrayScaleMedium
                             )
                         }
+
+                        Divider(
+                            modifier = Modifier
+                                .width(1.dp)
+                                .height(48.dp),
+                            color = GrayScaleLight
+                        )
 
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
                             modifier = Modifier
-                                .background(Color.Yellow)
                                 .padding(top = 8.dp)
-                                .border(
-                                    BorderStroke(5.dp, Color.Red),
-                                    shape = RectangleShape,
-                                    // 왼쪽과 오른쪽 방향에만 테두리 적용
-                                    borderStart = BorderSide(color = Color.Red, width = 5.dp),
-                                    borderEnd = BorderSide(color = Color.Red, width = 5.dp)
-                                )
-//                                .drawBehind {
-//                                    val borderSize = 2.dp.toPx()
-//                                    drawLine(
-//                                        color = Color.Black,
-//                                        start = Offset(0f, size.height),
-//
-//                                        end = Offset(size.width, size.height),
-//                                        strokeWidth = borderSize
-//                                    )
-//                                }
                         ) {
                             Row(
-                                modifier = Modifier
-                                    .height(32.dp)
-                                    .background(Color.Red),
+                                modifier = Modifier.height(26.dp),
                                 horizontalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
                                 Icon(
@@ -238,22 +224,29 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                                 )
                             }
                             Text(
-                                modifier = Modifier.padding(top = 4.dp),
+                                modifier = Modifier.padding(top = 0.dp),
                                 text = "Height",
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 8.sp
+                                fontSize = 8.sp,
+                                color = GrayScaleMedium
                             )
                         }
+
+                        Divider(
+                            modifier = Modifier
+                                .width(1.dp)
+                                .height(48.dp),
+                            color = GrayScaleLight
+                        )
+
+
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier
-                                .background(Color.Yellow)
-                                .padding(top = 8.dp)
                         ) {
                             Column(
                                 modifier = Modifier
-                                    .height(32.dp)
-                                    .background(Color.Red)
+                                    .height(26.dp)
+
                             ) {
                                 Text(
                                     text = "Chlorophyll",
@@ -267,14 +260,14 @@ fun DetailScreen(name: String, onClickBack: () -> Unit) {
                                     fontWeight = FontWeight.Normal,
                                     fontSize = 10.sp,
                                     lineHeight = 12.sp,
-
                                     )
                             }
                             Text(
-                                modifier = Modifier.padding(top = 4.dp),
+                                modifier = Modifier.padding(top = 8.dp),
                                 text = "Moves",
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 8.sp
+                                fontSize = 8.sp,
+                                color = GrayScaleMedium
                             )
                         }
                     }
