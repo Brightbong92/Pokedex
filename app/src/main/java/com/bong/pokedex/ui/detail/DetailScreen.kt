@@ -50,6 +50,7 @@ import com.bong.pokedex.ui.theme.GrayScaleDark
 import com.bong.pokedex.ui.theme.GrayScaleLight
 import com.bong.pokedex.ui.theme.GrayScaleMedium
 import com.bong.pokedex.ui.theme.PokemonTypeGrass
+import com.bong.pokedex.utils.toAndroidColor
 
 @Composable
 fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Unit) {
@@ -325,15 +326,16 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                                             fontSize = 10.sp,
                                             fontWeight = FontWeight.Normal,
                                             color = GrayScaleDark,
-                                            text = stat.base_stat.toString()
+                                            text = "0" + stat.base_stat.toString()
                                         )
                                         Spacer(modifier = Modifier.width(10.dp))
                                         Box {
-
-
                                             Box(
                                                 modifier = Modifier
-                                                    .background(PokemonTypeGrass)
+                                                    .background(
+                                                        PokemonTypeGrass,
+                                                        RoundedCornerShape(4.dp)
+                                                    )
                                                     .width(stat.base_stat.dp)
                                                     .height(4.dp)
                                                     .zIndex(2f)
@@ -343,7 +345,8 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                                                     .background(
                                                         PokemonTypeGrass.copy(
                                                             alpha = 0.2f
-                                                        )
+                                                        ),
+                                                        RoundedCornerShape(4.dp)
                                                     )
                                                     .widthIn(max = 233.dp)
                                                     .fillMaxWidth()
