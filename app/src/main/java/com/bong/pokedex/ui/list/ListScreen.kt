@@ -36,17 +36,17 @@ import com.bong.pokedex.ui.theme.Primary
 
 @Composable
 fun ListScreen(viewModel: ListViewModel, onCardClick: (String) -> Unit) {
-    val pokemonList: List<Pokemon> = listOf(
-        Pokemon("Bulbasaur", painterResource(id = R.drawable.bulbasaur), "#001"),
-        Pokemon("Charmander", painterResource(id = R.drawable.charmander), "#004"),
-        Pokemon("Squirtle", painterResource(id = R.drawable.squirtle), "#007"),
-        Pokemon("Butterfree", painterResource(id = R.drawable.butterfree), "#012"),
-        Pokemon("Pikachu", painterResource(id = R.drawable.pikachu), "#025"),
-        Pokemon("Gastly", painterResource(id = R.drawable.gastly), "#092"),
-        Pokemon("Ditto", painterResource(id = R.drawable.ditto), "#132"),
-        Pokemon("Mew", painterResource(id = R.drawable.mew), "#152"),
-        Pokemon("Aron", painterResource(id = R.drawable.aron), "#304")
-    )
+//    val pokemonList: List<Pokemon> = listOf(
+//        Pokemon("Bulbasaur", painterResource(id = R.drawable.bulbasaur), "#001"),
+//        Pokemon("Charmander", painterResource(id = R.drawable.charmander), "#004"),
+//        Pokemon("Squirtle", painterResource(id = R.drawable.squirtle), "#007"),
+//        Pokemon("Butterfree", painterResource(id = R.drawable.butterfree), "#012"),
+//        Pokemon("Pikachu", painterResource(id = R.drawable.pikachu), "#025"),
+//        Pokemon("Gastly", painterResource(id = R.drawable.gastly), "#092"),
+//        Pokemon("Ditto", painterResource(id = R.drawable.ditto), "#132"),
+//        Pokemon("Mew", painterResource(id = R.drawable.mew), "#152"),
+//        Pokemon("Aron", painterResource(id = R.drawable.aron), "#304")
+//    )
 
     if (viewModel.isSortCardOpen) {
         CustomDialog(onDismissRequest = {
@@ -118,10 +118,12 @@ fun ListScreen(viewModel: ListViewModel, onCardClick: (String) -> Unit) {
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(pokemonList.size) {
-                        val pokemon = pokemonList[it]
+                    items(viewModel.pokemonListResponse.size) {
+                        val pokemon = viewModel.pokemonListResponse[it]
                         PokemonCard(
-                            painter = pokemon.painter, name = pokemon.name, number = pokemon.number,
+                            imgUrl = pokemon.img_url,
+                            name = pokemon.name,
+                            number = pokemon.id,
                             onCardClick = onCardClick
                         )
                     }
@@ -130,10 +132,4 @@ fun ListScreen(viewModel: ListViewModel, onCardClick: (String) -> Unit) {
         }
     }
 }
-
-data class Pokemon(
-    val name: String,
-    val painter: Painter,
-    val number: String,
-)
 
