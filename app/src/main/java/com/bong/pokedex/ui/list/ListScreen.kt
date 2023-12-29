@@ -136,7 +136,7 @@ fun ListScreen(viewModel: ListViewModel) {
                             onCardClick = {
                                 navController.currentBackStackEntry?.savedStateHandle?.set("pokemonDetail", pokemonDetailInfo)
                                 navController.navigate("${Route.DETAIL}/$it") {
-                                    launchSingleTop = true
+//                                    launchSingleTop = true
                                 }
                             }
                         )

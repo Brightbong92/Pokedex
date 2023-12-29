@@ -18,12 +18,12 @@ import androidx.compose.ui.unit.sp
 import com.bong.pokedex.ui.theme.GrayScaleMedium
 
 @Composable
-fun PokemonType(typeName: String? = "", bgColor: String? = "") {
+fun PokemonType(typeName: String? = "", bgColor: Color) {
     Box(
         modifier = Modifier
             .width(IntrinsicSize.Min)
             .height(20.dp)
-            .background(GrayScaleMedium, RoundedCornerShape(10.dp)),
+            .background(bgColor, RoundedCornerShape(10.dp)),
         contentAlignment = Alignment.Center
     ) {
         Text(

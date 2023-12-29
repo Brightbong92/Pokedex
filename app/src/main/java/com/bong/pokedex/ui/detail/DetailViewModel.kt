@@ -5,8 +5,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.bong.pokedex.AmbientNavController
 import com.bong.pokedex.data.PokemonDetail
 import com.bong.pokedex.network.PokemonApiService
+import com.bong.pokedex.ui.list.PokemonDetailInfo
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
@@ -18,7 +20,6 @@ class DetailViewModel : ViewModel() {
     private val pokeApiService = retrofit.create(PokemonApiService::class.java)
 
     var pokemonData by mutableStateOf<PokemonDetail?>(null)
-
 
     // List to hold the API response dummy data
     var apiStats: List<PokemonStatData> = listOf(
