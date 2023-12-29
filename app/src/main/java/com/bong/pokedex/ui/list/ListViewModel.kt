@@ -3,7 +3,6 @@ package com.bong.pokedex.ui.list
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,24 +21,29 @@ const val IMG_END_POINT =
 class ListViewModel : ViewModel() {
     private var TAG: String = "로그"
 
+    private var next = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=20" // page
+
     private val retrofit = Retrofit.Builder().baseUrl("https://pokeapi.co/api/v2/")
         .addConverterFactory(GsonConverterFactory.create()).build()
 
     private val pokeApiService = retrofit.create(PokemonApiService::class.java)
 
-    var pokemonListResponse by mutableStateOf<List<PokemonResult>>(emptyList())
+    var pokemonList by mutableStateOf<List<PokemonResult>>(emptyList())
 
     init {
         // Fetch initial Pokemon list
         Log.d(TAG, "init 실행 ")
-        fetchPokemonList()
+        loadPokemonList()
     }
 
-    private fun fetchPokemonList() {
+    fun loadPokemonList() {
         viewModelScope.launch {
             try {
-                val response = pokeApiService.getPokemonList(limit = 20, offset = 0)
-                pokemonListResponse = setFetchList(response.results);
+                val response = pokeApiService.getPokemonList(next);
+                Log.d(TAG, "fetchPokemonList response: $response")
+                val list = setFetchList(response.results);
+                pokemonList += list
+                next = response.next ?: ""
             } catch (e: Exception) {
                 // Handle error fetching data
                 Log.d(TAG, "fetchPokemonList error: $e")

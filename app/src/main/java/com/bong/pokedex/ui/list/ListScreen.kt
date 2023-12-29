@@ -21,7 +21,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,18 +35,6 @@ import com.bong.pokedex.ui.theme.Primary
 
 @Composable
 fun ListScreen(viewModel: ListViewModel, onCardClick: (String) -> Unit) {
-//    val pokemonList: List<Pokemon> = listOf(
-//        Pokemon("Bulbasaur", painterResource(id = R.drawable.bulbasaur), "#001"),
-//        Pokemon("Charmander", painterResource(id = R.drawable.charmander), "#004"),
-//        Pokemon("Squirtle", painterResource(id = R.drawable.squirtle), "#007"),
-//        Pokemon("Butterfree", painterResource(id = R.drawable.butterfree), "#012"),
-//        Pokemon("Pikachu", painterResource(id = R.drawable.pikachu), "#025"),
-//        Pokemon("Gastly", painterResource(id = R.drawable.gastly), "#092"),
-//        Pokemon("Ditto", painterResource(id = R.drawable.ditto), "#132"),
-//        Pokemon("Mew", painterResource(id = R.drawable.mew), "#152"),
-//        Pokemon("Aron", painterResource(id = R.drawable.aron), "#304")
-//    )
-
     if (viewModel.isSortCardOpen) {
         CustomDialog(onDismissRequest = {
             viewModel.onSortCardClose()
@@ -118,8 +105,11 @@ fun ListScreen(viewModel: ListViewModel, onCardClick: (String) -> Unit) {
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    items(viewModel.pokemonListResponse.size) {
-                        val pokemon = viewModel.pokemonListResponse[it]
+                    items(viewModel.pokemonList.size) { index ->
+                        if (index + 1 === viewModel.pokemonList.size) {
+                            viewModel.loadPokemonList()
+                        }
+                        val pokemon = viewModel.pokemonList[index]
                         PokemonCard(
                             imgUrl = pokemon.img_url,
                             name = pokemon.name,
