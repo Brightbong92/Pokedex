@@ -41,9 +41,9 @@ class DetailViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 var data = pokeApiService.getPokemonByNameOrId(nameOrId)
-                var contestEffectData = pokeApiService.getPokemonContestEffectById(id.toString())
+//                var contestEffectData = pokeApiService.getPokemonContestEffectById(id.toString())
                 pokemonData = data
-                pokemonContestEffect = contestEffectData
+//                pokemonContestEffect = contestEffectData
             } catch (e: Exception) {
                 Log.d(TAG, "loadPokemon error nameOrId: $nameOrId, id: $id")
                 Log.d(TAG, "loadPokemon Error: $e")

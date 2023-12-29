@@ -38,6 +38,7 @@ import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
 import com.bong.pokedex.AmbientNavController
 import com.bong.pokedex.R
+import com.bong.pokedex.ui.components.Loader
 import com.bong.pokedex.ui.components.PokemonType
 import com.bong.pokedex.ui.list.PokemonDetailInfo
 import com.bong.pokedex.ui.theme.GrayScaleDark
@@ -45,7 +46,6 @@ import com.bong.pokedex.ui.theme.GrayScaleLight
 import com.bong.pokedex.ui.theme.GrayScaleMedium
 import com.bong.pokedex.utils.getPokemonTypeColor
 import com.bong.pokedex.utils.replaceFirstCharToUpperCase
-import kotlin.math.roundToInt
 
 @Composable
 fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Unit) {
@@ -53,11 +53,14 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
     val pokemonDetail =
         navController.previousBackStackEntry?.savedStateHandle?.get<PokemonDetailInfo>("pokemonDetail")
 
-//    DisposableEffect(Unit) {
-//        onDispose {
-//            navController.previousBackStackEntry?.savedStateHandle?.remove<PokemonDetailInfo>("pokemonDetail")
-//        }
-//    }
+    val isLoading = viewModel.pokemonData == null
+
+    DisposableEffect(Unit) {
+        onDispose {
+            navController.previousBackStackEntry?.savedStateHandle?.remove<PokemonDetailInfo>("pokemonDetail")
+            viewModel.pokemonData = null
+        }
+    }
 
     LaunchedEffect(pokemonDetail) {
         if (pokemonDetail?.name !== null && pokemonDetail?.id !== null) {
@@ -65,7 +68,14 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
         }
     }
 
-    if (pokemonDetail !== null && viewModel.pokemonData !== null && viewModel.pokemonContestEffect !== null) {
+
+    if (isLoading) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Loader(modifier = Modifier
+                .width(50.dp)
+                .height(50.dp))
+        }
+    } else {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -88,7 +98,9 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        IconButton(modifier = Modifier.size(32.dp), onClick = { onClickBack() }) {
+                        IconButton(
+                            modifier = Modifier.size(32.dp),
+                            onClick = { onClickBack() }) {
                             Icon(
                                 painter = painterResource(id = R.drawable.arrow_back),
                                 contentDescription = "arrow_back",
@@ -142,11 +154,15 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                         .offset(y = (-150).dp)
                         .align(Alignment.TopCenter)
                 ) {
-                    AsyncImage(
-                        model = pokemonDetail?.imgUrl ?: "",
-                        contentDescription = pokemonDetail?.name ?: "",
-                        modifier = Modifier.size(200.dp)
-                    )
+                    if (viewModel.pokemonData !== null) {
+                        AsyncImage(
+                            model = pokemonDetail?.imgUrl ?: "",
+                            contentDescription = pokemonDetail?.name ?: "",
+                            modifier = Modifier.size(200.dp)
+                        )
+                    } else {
+                        Loader()
+                    }
                 }
 
                 Box(
@@ -205,10 +221,10 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                                         modifier = Modifier.size(16.dp)
                                     )
                                     Text(
-                                        text =
-                                        String.format(
+                                        text = String.format(
                                             "%.2f",
-                                            viewModel?.pokemonData?.weight?.toDouble()?.times(0.1)
+                                            viewModel?.pokemonData?.weight?.toDouble()
+                                                ?.times(0.1)
                                         ) + " kg",
                                         fontWeight = FontWeight.Normal,
                                         fontSize = 10.sp
@@ -248,7 +264,8 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                                     Text(
                                         text = String.format(
                                             "%.2f",
-                                            viewModel?.pokemonData?.height?.toDouble()?.times(0.1)
+                                            viewModel?.pokemonData?.height?.toDouble()
+                                                ?.times(0.1)
                                         ) + " m",
                                         fontWeight = FontWeight.Normal,
                                         fontSize = 10.sp
@@ -370,7 +387,9 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                                                     modifier = Modifier
                                                         .background(
                                                             getPokemonTypeColor(
-                                                                viewModel?.pokemonData?.types?.get(0)!!?.type?.name
+                                                                viewModel?.pokemonData?.types?.get(
+                                                                    0
+                                                                )!!?.type?.name
                                                                     ?: ""
                                                             ), RoundedCornerShape(4.dp)
                                                         )
@@ -382,7 +401,9 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                                                     modifier = Modifier
                                                         .background(
                                                             getPokemonTypeColor(
-                                                                viewModel?.pokemonData?.types?.get(0)!!?.type?.name
+                                                                viewModel?.pokemonData?.types?.get(
+                                                                    0
+                                                                )!!?.type?.name
                                                                     ?: ""
                                                             ).copy(
                                                                 alpha = 0.2f
@@ -395,16 +416,15 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                                                 )
                                             }
                                         }
-
                                     }
-
                                 }
                             }
                         }
-
                     }
                 }
             }
         }
-    } else Box(modifier = Modifier.fillMaxSize())
+    }
+
+
 }
