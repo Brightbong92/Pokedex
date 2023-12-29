@@ -32,7 +32,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bong.pokedex.R
@@ -42,7 +41,7 @@ import com.bong.pokedex.ui.theme.Primary
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
-fun SearchBar(containerWidth: Dp? = 200.dp, searchBarWidth: Dp? = 120.dp) {
+fun SearchBar() {
 
     var keyword by rememberSaveable { mutableStateOf("") }
 
@@ -77,8 +76,6 @@ fun SearchBar(containerWidth: Dp? = 200.dp, searchBarWidth: Dp? = 120.dp) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(0.85f)
-//                    .widthIn(max = containerWidth!!)
-//                    .fillMaxWidth()
                     .background(color = Color.White, shape = RoundedCornerShape(size = 16.dp))
                     .padding(all = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -99,7 +96,6 @@ fun SearchBar(containerWidth: Dp? = 200.dp, searchBarWidth: Dp? = 120.dp) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth(0.9f)
-//                        .width(searchBarWidth!!)
                 ) {
                     Box() {
                         if (keyword.isEmpty()) {
@@ -128,6 +124,4 @@ fun SearchBar(containerWidth: Dp? = 200.dp, searchBarWidth: Dp? = 120.dp) {
             }
         },
     )
-
-
 }

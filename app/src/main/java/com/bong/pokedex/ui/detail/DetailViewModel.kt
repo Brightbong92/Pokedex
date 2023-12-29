@@ -1,9 +1,23 @@
 package com.bong.pokedex.ui.detail
 
+import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.bong.pokedex.data.PokemonDetail
+import com.bong.pokedex.network.PokemonApiService
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 class DetailViewModel : ViewModel() {
-    val stats = listOf("HP", "ATK", "DEF", "SATK", "SDEF", "SPD")
+    var TAG: String = "로그"
+    private val retrofit = Retrofit.Builder().baseUrl("https://pokeapi.co/api/v2/")
+        .addConverterFactory(GsonConverterFactory.create()).build()
+    private val pokeApiService = retrofit.create(PokemonApiService::class.java)
+
+    var pokemonData by mutableStateOf<PokemonDetail?>(null)
 
 
     // List to hold the API response dummy data
@@ -53,11 +67,13 @@ class DetailViewModel : ViewModel() {
     }
 
     // Function to fetch data from the API and update the stats
-    suspend fun fetchDataFromApi() {
+    suspend fun loadPokemon(nameOrId: String) {
         // Perform API call to get the stats data
         // Parse the response into PokemonStatData objects and assign it to stats
         // Replace this with your actual API call and parsing logic
-
+        var data = pokeApiService.getPokemonByNameOrId(nameOrId)
+        pokemonData = data
+        Log.d(TAG, "loadPokemon: $pokemonData")
     }
 
 }

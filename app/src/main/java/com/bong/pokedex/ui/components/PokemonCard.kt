@@ -19,14 +19,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import coil.compose.AsyncImage
-import com.bong.pokedex.R
 import com.bong.pokedex.ui.theme.GrayScaleBackground
+import com.bong.pokedex.utils.replaceFirstCharToUpperCase
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -88,9 +86,8 @@ fun PokemonCard(
                     .padding(bottom = 4.dp)
                     .zIndex(1f), contentAlignment = Alignment.BottomCenter
             ) {
-                val pokemonName =
-                    name?.replaceFirstChar { if (it.isLowerCase()) it.titlecase() else it.toString() }
-                Text(pokemonName ?: "", fontSize = 10.sp)
+                val pokemonName = replaceFirstCharToUpperCase(name ?: "")
+                Text(pokemonName, fontSize = 10.sp)
             }
         }
     }

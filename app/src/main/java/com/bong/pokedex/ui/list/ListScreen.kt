@@ -1,5 +1,9 @@
 package com.bong.pokedex.ui.list
 
+import android.os.Bundle
+import android.os.Parcel
+import android.os.Parcelable
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,16 +29,24 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavType
+import com.bong.pokedex.AmbientNavController
 import com.bong.pokedex.R
+import com.bong.pokedex.Route
 import com.bong.pokedex.ui.components.CustomDialog
 import com.bong.pokedex.ui.components.PokemonCard
 import com.bong.pokedex.ui.components.SearchBar
 import com.bong.pokedex.ui.components.SortButton
 import com.bong.pokedex.ui.components.SortCard
 import com.bong.pokedex.ui.theme.Primary
+import kotlinx.parcelize.Parceler
+import kotlinx.parcelize.Parcelize
+import java.lang.reflect.Array.set
 
 @Composable
-fun ListScreen(viewModel: ListViewModel, onCardClick: (String) -> Unit) {
+fun ListScreen(viewModel: ListViewModel) {
+    val navController = AmbientNavController.current ?: return // Access NavController from Ambient
+
     if (viewModel.isSortCardOpen) {
         CustomDialog(onDismissRequest = {
             viewModel.onSortCardClose()
@@ -82,7 +94,7 @@ fun ListScreen(viewModel: ListViewModel, onCardClick: (String) -> Unit) {
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    SearchBar(containerWidth = 280.dp, searchBarWidth = 228.dp)
+                    SearchBar()
                     SortButton(
                         iconName = viewModel.selectedOption,
                         onOpen = { viewModel.onSortCardOpen() })
@@ -110,11 +122,23 @@ fun ListScreen(viewModel: ListViewModel, onCardClick: (String) -> Unit) {
                             viewModel.loadPokemonList()
                         }
                         val pokemon = viewModel.pokemonList[index]
+
+                        val pokemonDetailInfo = PokemonDetailInfo(
+                            id = pokemon.id,
+                            imgUrl = pokemon.img_url,
+                            name = pokemon.name
+                        )
+
                         PokemonCard(
                             imgUrl = pokemon.img_url,
                             name = pokemon.name,
                             number = pokemon.id,
-                            onCardClick = onCardClick
+                            onCardClick = {
+                                navController.currentBackStackEntry?.savedStateHandle?.set("pokemonDetail", pokemonDetailInfo)
+                                navController.navigate("${Route.DETAIL}/$it") {
+                                    launchSingleTop = true
+                                }
+                            }
                         )
                     }
                 }
@@ -122,4 +146,9 @@ fun ListScreen(viewModel: ListViewModel, onCardClick: (String) -> Unit) {
         }
     }
 }
-
+@Parcelize
+data class PokemonDetailInfo(
+    val id: Int?,
+    val imgUrl: String,
+    val name: String,
+) : Parcelable

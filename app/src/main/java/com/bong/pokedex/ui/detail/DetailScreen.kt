@@ -1,10 +1,6 @@
 package com.bong.pokedex.ui.detail
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,34 +22,42 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import coil.compose.AsyncImage
+import com.bong.pokedex.AmbientNavController
 import com.bong.pokedex.R
 import com.bong.pokedex.ui.components.PokemonType
+import com.bong.pokedex.ui.list.PokemonDetailInfo
 import com.bong.pokedex.ui.theme.GrayScaleDark
 import com.bong.pokedex.ui.theme.GrayScaleLight
 import com.bong.pokedex.ui.theme.GrayScaleMedium
 import com.bong.pokedex.ui.theme.PokemonTypeGrass
-import com.bong.pokedex.utils.toAndroidColor
+import com.bong.pokedex.utils.replaceFirstCharToUpperCase
 
 @Composable
 fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Unit) {
+    val navController = AmbientNavController.current ?: return
+    val pokemonDetail =
+        navController.previousBackStackEntry?.savedStateHandle?.get<PokemonDetailInfo>("pokemonDetail")
+    
+    DisposableEffect(Unit) {
+        onDispose {
+            navController.previousBackStackEntry?.savedStateHandle?.remove<PokemonDetailInfo>("pokemonDetail")
+
+        }
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -80,7 +84,7 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                         )
                     }
                     Text(
-                        text = name,
+                        text = replaceFirstCharToUpperCase(name),
                         color = Color.White,
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 24.sp,
@@ -88,7 +92,7 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                     )
                 }
                 Text(
-                    text = "#001",
+                    text = "#" + pokemonDetail?.id.toString(),
                     color = Color.White,
                     fontWeight = FontWeight.ExtraBold,
                     fontSize = 12.sp
@@ -126,10 +130,10 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                     .offset(y = (-150).dp)
                     .align(Alignment.TopCenter)
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.bulbasaur),
-                    contentDescription = "bulbasaur",
-                    modifier = Modifier.size(200.dp),
+                AsyncImage(
+                    model = pokemonDetail?.imgUrl ?: "",
+                    contentDescription = pokemonDetail?.name ?: "",
+                    modifier = Modifier.size(200.dp)
                 )
             }
 
@@ -333,8 +337,7 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                                             Box(
                                                 modifier = Modifier
                                                     .background(
-                                                        PokemonTypeGrass,
-                                                        RoundedCornerShape(4.dp)
+                                                        PokemonTypeGrass, RoundedCornerShape(4.dp)
                                                     )
                                                     .width(stat.base_stat.dp)
                                                     .height(4.dp)
@@ -345,8 +348,7 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                                                     .background(
                                                         PokemonTypeGrass.copy(
                                                             alpha = 0.2f
-                                                        ),
-                                                        RoundedCornerShape(4.dp)
+                                                        ), RoundedCornerShape(4.dp)
                                                     )
                                                     .widthIn(max = 233.dp)
                                                     .fillMaxWidth()
