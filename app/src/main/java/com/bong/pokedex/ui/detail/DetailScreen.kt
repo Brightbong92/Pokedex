@@ -223,7 +223,8 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                             Divider(
                                 modifier = Modifier
                                     .width(1.dp)
-                                    .height(48.dp), color = GrayScaleLight
+                                    .height(48.dp),
+                                color = GrayScaleLight
                             )
 
                             Column(
@@ -259,7 +260,8 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                             Divider(
                                 modifier = Modifier
                                     .width(1.dp)
-                                    .height(48.dp), color = GrayScaleLight
+                                    .height(48.dp),
+                                color = GrayScaleLight
                             )
 
 
@@ -319,10 +321,13 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                                 Column(
                                     horizontalAlignment = Alignment.End
                                 ) {
-                                    viewModel.apiStats.forEach { stat ->
+                                    viewModel.pokemonData?.stats?.forEach { stat ->
                                         Text(
                                             modifier = Modifier.height(16.dp),
-                                            color = PokemonTypeGrass,
+                                            color = getPokemonTypeColor(
+                                                viewModel?.pokemonData?.types?.get(0)!!?.type?.name
+                                                    ?: ""
+                                            ),
                                             fontSize = 10.sp,
                                             fontWeight = FontWeight.ExtraBold,
                                             text = viewModel.toUpperCaseStatName(stat.stat.name)
@@ -341,7 +346,7 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
 
                                 Column(modifier = Modifier.fillMaxWidth()) {
 
-                                    viewModel.apiStats.forEach { stat ->
+                                    viewModel.pokemonData?.stats?.forEach { stat ->
 
                                         Row(
                                             modifier = Modifier.height(16.dp),
@@ -351,15 +356,21 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                                                 fontSize = 10.sp,
                                                 fontWeight = FontWeight.Normal,
                                                 color = GrayScaleDark,
-                                                text = "0" + stat.base_stat.toString()
+                                                text = if (stat.base_stat.toString().length === 3) {
+                                                    stat.base_stat.toString()
+                                                } else {
+                                                    "0" + stat.base_stat.toString()
+                                                }
                                             )
                                             Spacer(modifier = Modifier.width(10.dp))
                                             Box {
                                                 Box(
                                                     modifier = Modifier
                                                         .background(
-                                                            PokemonTypeGrass,
-                                                            RoundedCornerShape(4.dp)
+                                                            getPokemonTypeColor(
+                                                                viewModel?.pokemonData?.types?.get(0)!!?.type?.name
+                                                                    ?: ""
+                                                            ), RoundedCornerShape(4.dp)
                                                         )
                                                         .width(stat.base_stat.dp)
                                                         .height(4.dp)
@@ -368,7 +379,10 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                                                 Box(
                                                     modifier = Modifier
                                                         .background(
-                                                            PokemonTypeGrass.copy(
+                                                            getPokemonTypeColor(
+                                                                viewModel?.pokemonData?.types?.get(0)!!?.type?.name
+                                                                    ?: ""
+                                                            ).copy(
                                                                 alpha = 0.2f
                                                             ), RoundedCornerShape(4.dp)
                                                         )
