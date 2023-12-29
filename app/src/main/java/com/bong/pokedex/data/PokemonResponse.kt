@@ -14,6 +14,30 @@ data class PokemonResult(
     val img_url: String,
 )
 
+
+data class PokemonContestEffect(
+    val id: Int,
+    val appeal: Int,
+    val jam: Int,
+    val effect_entries: List<EffectEntry>,
+    val flavor_text_entries: List<FlavorTextEntry>
+)
+
+data class EffectEntry(
+    val effect: String,
+    val language: Language
+)
+
+data class FlavorTextEntry(
+    val flavor_text: String,
+    val language: Language
+)
+
+data class Language(
+    val name: String,
+    val url: String
+)
+
 data class PokemonDetail(
     val id: Int,
     val name: String,

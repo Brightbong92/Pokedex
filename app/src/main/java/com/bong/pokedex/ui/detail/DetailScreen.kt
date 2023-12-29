@@ -1,6 +1,5 @@
 package com.bong.pokedex.ui.detail
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -44,9 +43,9 @@ import com.bong.pokedex.ui.list.PokemonDetailInfo
 import com.bong.pokedex.ui.theme.GrayScaleDark
 import com.bong.pokedex.ui.theme.GrayScaleLight
 import com.bong.pokedex.ui.theme.GrayScaleMedium
-import com.bong.pokedex.ui.theme.PokemonTypeGrass
 import com.bong.pokedex.utils.getPokemonTypeColor
 import com.bong.pokedex.utils.replaceFirstCharToUpperCase
+import kotlin.math.roundToInt
 
 @Composable
 fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Unit) {
@@ -54,19 +53,19 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
     val pokemonDetail =
         navController.previousBackStackEntry?.savedStateHandle?.get<PokemonDetailInfo>("pokemonDetail")
 
-    DisposableEffect(Unit) {
-        onDispose {
-            navController.previousBackStackEntry?.savedStateHandle?.remove<PokemonDetailInfo>("pokemonDetail")
-        }
-    }
+//    DisposableEffect(Unit) {
+//        onDispose {
+//            navController.previousBackStackEntry?.savedStateHandle?.remove<PokemonDetailInfo>("pokemonDetail")
+//        }
+//    }
 
     LaunchedEffect(pokemonDetail) {
-        if (pokemonDetail?.name !== null) {
-            viewModel.loadPokemon(pokemonDetail?.name)
+        if (pokemonDetail?.name !== null && pokemonDetail?.id !== null) {
+            viewModel.loadPokemon(pokemonDetail?.name, pokemonDetail?.id)
         }
     }
 
-    if (pokemonDetail !== null && viewModel.pokemonData != null) {
+    if (pokemonDetail !== null && viewModel.pokemonData !== null && viewModel.pokemonContestEffect !== null) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -206,7 +205,11 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                                         modifier = Modifier.size(16.dp)
                                     )
                                     Text(
-                                        text = "6,9 kg",
+                                        text =
+                                        String.format(
+                                            "%.2f",
+                                            viewModel?.pokemonData?.weight?.toDouble()?.times(0.1)
+                                        ) + " kg",
                                         fontWeight = FontWeight.Normal,
                                         fontSize = 10.sp
                                     )
@@ -243,7 +246,10 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                                             .rotate(90f)
                                     )
                                     Text(
-                                        text = "0,7 m",
+                                        text = String.format(
+                                            "%.2f",
+                                            viewModel?.pokemonData?.height?.toDouble()?.times(0.1)
+                                        ) + " m",
                                         fontWeight = FontWeight.Normal,
                                         fontSize = 10.sp
                                     )
@@ -264,27 +270,21 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                                 color = GrayScaleLight
                             )
 
-
                             Column(
                                 horizontalAlignment = Alignment.CenterHorizontally,
                             ) {
                                 Column(
                                     modifier = Modifier.height(26.dp)
-
                                 ) {
-                                    Text(
-                                        text = "Chlorophyll",
-                                        fontWeight = FontWeight.Normal,
-                                        fontSize = 10.sp,
-                                        lineHeight = 12.sp,
-
+                                    viewModel.pokemonData?.moves?.forEach {
+                                        Text(
+                                            text = it.move.name,
+                                            fontWeight = FontWeight.Normal,
+                                            textAlign = TextAlign.Center,
+                                            fontSize = 10.sp,
+                                            lineHeight = 12.sp,
                                         )
-                                    Text(
-                                        text = "Overgrow",
-                                        fontWeight = FontWeight.Normal,
-                                        fontSize = 10.sp,
-                                        lineHeight = 12.sp,
-                                    )
+                                    }
                                 }
                                 Text(
                                     modifier = Modifier.padding(top = 8.dp),
@@ -297,12 +297,14 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
                         } // About End
 
                         Box(modifier = Modifier.padding(top = 16.dp, bottom = 16.dp)) {
-                            Text(
-                                lineHeight = 16.sp,
-                                color = GrayScaleDark,
-                                fontSize = 10.sp,
-                                text = "There is a plant seed on its back right from the day this Pokémon is born. The seed slowly grows larger."
-                            )
+                            viewModel.pokemonContestEffect?.flavor_text_entries?.get(0)?.let {
+                                Text(
+                                    lineHeight = 16.sp,
+                                    color = GrayScaleDark,
+                                    fontSize = 10.sp,
+                                    text = it?.flavor_text ?: ""
+                                )
+                            }
                         }
 
                         // Base Stats

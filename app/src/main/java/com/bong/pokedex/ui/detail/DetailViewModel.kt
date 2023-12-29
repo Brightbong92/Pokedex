@@ -5,10 +5,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bong.pokedex.AmbientNavController
+import com.bong.pokedex.data.PokemonContestEffect
 import com.bong.pokedex.data.PokemonDetail
 import com.bong.pokedex.network.PokemonApiService
 import com.bong.pokedex.ui.list.PokemonDetailInfo
+import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
@@ -18,42 +22,8 @@ class DetailViewModel : ViewModel() {
     private val retrofit = Retrofit.Builder().baseUrl("https://pokeapi.co/api/v2/")
         .addConverterFactory(GsonConverterFactory.create()).build()
     private val pokeApiService = retrofit.create(PokemonApiService::class.java)
-
     var pokemonData by mutableStateOf<PokemonDetail?>(null)
-
-    // List to hold the API response dummy data
-    var apiStats: List<PokemonStatData> = listOf(
-        PokemonStatData(
-            base_stat = 45,
-            effort = 0,
-            stat = StatDetail("hp", "https://pokeapi.co/api/v2/stat/1/")
-        ),
-        PokemonStatData(
-            base_stat = 49,
-            effort = 0,
-            stat = StatDetail("attack", "https://pokeapi.co/api/v2/stat/2/")
-        ),
-        PokemonStatData(
-            base_stat = 49,
-            effort = 0,
-            stat = StatDetail("defense", "https://pokeapi.co/api/v2/stat/3/")
-        ),
-        PokemonStatData(
-            base_stat = 65,
-            effort = 1,
-            stat = StatDetail("special-attack", "https://pokeapi.co/api/v2/stat/4/")
-        ),
-        PokemonStatData(
-            base_stat = 65,
-            effort = 0,
-            stat = StatDetail("special-defense", "https://pokeapi.co/api/v2/stat/5/")
-        ),
-        PokemonStatData(
-            base_stat = 45,
-            effort = 0,
-            stat = StatDetail("speed", "https://pokeapi.co/api/v2/stat/6/")
-        )
-    )
+    var pokemonContestEffect by mutableStateOf<PokemonContestEffect?>(null)
 
     fun toUpperCaseStatName(name: String): String {
         return when (name) {
@@ -67,25 +37,26 @@ class DetailViewModel : ViewModel() {
         }
     }
 
-    // Function to fetch data from the API and update the stats
-    suspend fun loadPokemon(nameOrId: String) {
-        // Perform API call to get the stats data
-        // Parse the response into PokemonStatData objects and assign it to stats
-        // Replace this with your actual API call and parsing logic
-        var data = pokeApiService.getPokemonByNameOrId(nameOrId)
-        pokemonData = data
-        Log.d(TAG, "loadPokemon: $pokemonData")
+    suspend fun loadPokemon(nameOrId: String, id: Int) {
+        viewModelScope.launch {
+            try {
+                var data = pokeApiService.getPokemonByNameOrId(nameOrId)
+                var contestEffectData = pokeApiService.getPokemonContestEffectById(id.toString())
+                pokemonData = data
+                pokemonContestEffect = contestEffectData
+            } catch (e: Exception) {
+                Log.d(TAG, "loadPokemon error nameOrId: $nameOrId, id: $id")
+                Log.d(TAG, "loadPokemon Error: $e")
+            }
+        }
     }
 
+//    suspend fun loadPokemonContestEffect(id: String) {
+//        viewModelScope.launch {
+//            var data = pokeApiService.getPokemonContestEffectById(id)
+//            pokemonContestEffect = data
+//            Log.d(TAG, "loadPokemonContestEffect: $pokemonContestEffect")
+//        }
+//    }
+
 }
-
-data class PokemonStatData(
-    val base_stat: Int,
-    val effort: Int,
-    val stat: StatDetail
-)
-
-data class StatDetail(
-    val name: String,
-    val url: String
-)

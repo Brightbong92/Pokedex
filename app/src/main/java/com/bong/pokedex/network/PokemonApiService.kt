@@ -1,5 +1,6 @@
 package com.bong.pokedex.network
 
+import com.bong.pokedex.data.PokemonContestEffect
 import com.bong.pokedex.data.PokemonDetail
 import com.bong.pokedex.data.PokemonListResponse
 import retrofit2.http.GET
@@ -14,13 +15,15 @@ interface PokemonApiService {
 //        @Query("offset") offset: Int
 //    ): PokemonListResponse
 
+    @GET("contest-effect/{id}")
+    suspend fun getPokemonContestEffectById(@Path("id") id: String) : PokemonContestEffect
 
     @GET("pokemon/{nameOrId}")
-    suspend fun getPokemonByNameOrId(@Path("nameOrId") nameOrId: String) : PokemonDetail
+    suspend fun getPokemonByNameOrId(@Path("nameOrId") nameOrId: String): PokemonDetail
 
     @GET
-    suspend fun getPokemonList(@Url url:String): PokemonListResponse
+    suspend fun getPokemonList(@Url url: String): PokemonListResponse
 
     @GET("")
-    suspend fun getPokemonDetail(@Url url:String): PokemonDetail
+    suspend fun getPokemonDetail(@Url url: String): PokemonDetail
 }
