@@ -65,6 +65,7 @@ fun DetailScreen(viewModel: DetailViewModel, name: String, onClickBack: () -> Un
     LaunchedEffect(pokemonDetail) {
         if (pokemonDetail?.name !== null && pokemonDetail?.id !== null) {
             viewModel.loadPokemon(pokemonDetail?.name, pokemonDetail?.id)
+//            viewModel.loadPokemonContestEffect(pokemonDetail?.id.toString())
         }
     }
 
