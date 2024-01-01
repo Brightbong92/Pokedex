@@ -50,16 +50,16 @@ fun ComposeApp() {
                         towards = AnimatedContentTransitionScope.SlideDirection.Start
                     )
                 },
-//                exitTransition = {
-//                    fadeOut(
-//                        animationSpec = tween(
-//                            100, easing = LinearEasing
-//                        )
-//                    ) + slideOutOfContainer(
-//                        animationSpec = tween(100, easing = EaseOut),
-//                        towards = AnimatedContentTransitionScope.SlideDirection.End
-//                    )
-//                },
+                exitTransition = {
+                    fadeOut(
+                        animationSpec = tween(
+                            100, easing = LinearEasing
+                        )
+                    ) + slideOutOfContainer(
+                        animationSpec = tween(100, easing = EaseOut),
+                        towards = AnimatedContentTransitionScope.SlideDirection.End
+                    )
+                },
                 route = "${Route.DETAIL}/{${POKEMON_NAME}}",
                 arguments = listOf(
                     navArgument(POKEMON_NAME) {

@@ -31,16 +31,13 @@ class ListViewModel : ViewModel() {
     var pokemonList by mutableStateOf<List<PokemonResult>>(emptyList())
 
     init {
-        // Fetch initial Pokemon list
-        Log.d(TAG, "init 실행 ")
-        loadPokemonList()
+        loadPokemonList() // Fetch initial Pokemon list
     }
 
     fun loadPokemonList() {
         viewModelScope.launch {
             try {
                 val response = pokeApiService.getPokemonList(next);
-                Log.d(TAG, "fetchPokemonList response: $response")
                 val list = setFetchList(response.results);
                 pokemonList += list
                 next = response.next ?: ""
